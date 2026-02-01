@@ -1,6 +1,20 @@
-@SmartInventory.API_HostAddress = http://localhost:5242
+@SmartInventory.API_HostAddress = http://localhost:8080
 
+### Test WeatherForecast (ejemplo por defecto)
 GET {{SmartInventory.API_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+### Registrar nuevo usuario
+POST {{SmartInventory.API_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Juan",
+  "lastName": "Perez",
+  "email": "juan.perez@empresa.com",
+  "password": "PasswordSeguro123!"
+}
 
 ###

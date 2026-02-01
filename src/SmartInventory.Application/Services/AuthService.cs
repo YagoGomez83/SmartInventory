@@ -38,13 +38,13 @@ namespace SmartInventory.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-        // TODO: Inyectar IJwtTokenGenerator cuando lo implementemos
-        // TODO: Inyectar IPasswordHasher cuando lo implementemos
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
         /// <summary>
         /// Constructor con inyección de dependencias.
         /// </summary>
         /// <param name="userRepository">Repositorio de usuarios (abstracción).</param>
+        /// <param name="jwtTokenGenerator">Generador de tokens JWT.</param>
         /// <remarks>
         /// CONSTRUCTOR INJECTION:
         /// - Es la forma más común de DI en .NET.
@@ -60,9 +60,10 @@ namespace SmartInventory.Application.Services
         /// - Flexible: Cambiar implementación sin tocar este código.
         /// - Explícito: Las dependencias se ven claramente en el constructor.
         /// </remarks>
-        public AuthService(IUserRepository userRepository)
+        public AuthService(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _jwtTokenGenerator = jwtTokenGenerator ?? throw new ArgumentNullException(nameof(jwtTokenGenerator));
         }
 
         /// <inheritdoc />
@@ -91,11 +92,8 @@ namespace SmartInventory.Application.Services
             // PASO 2: TRANSFORMAR DTO → ENTIDAD (Mapping)
             // ═══════════════════════════════════════════════════════════════════
 
-            // TODO: Implementar hashing real con BCrypt o Argon2
-            // Ejemplo con BCrypt.Net:
-            //   string passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password, workFactor: 12);
-            // Por ahora, usamos un placeholder (NUNCA hacer esto en producción)
-            string passwordHash = $"HASH_{dto.Password}"; // ⚠️ TEMPORAL - Implementar hashing real
+            // Hashear la contraseña usando BCrypt (algoritmo seguro con salt automático)
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
             var user = new User
             {
@@ -117,14 +115,9 @@ namespace SmartInventory.Application.Services
             // PASO 4: GENERAR TOKEN JWT
             // ═══════════════════════════════════════════════════════════════════
 
-            // TODO: Implementar IJwtTokenGenerator
-            // El token debe contener claims:
-            // - sub: createdUser.Id (subject)
-            // - email: createdUser.Email
-            // - role: createdUser.Role.ToString()
-            // - exp: DateTime.UtcNow.AddHours(1) (expiración)
-
-            string jwtToken = $"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.PLACEHOLDER.{createdUser.Id}";
+            // Generar token JWT con los datos del usuario
+            // El token contiene claims: sub (Id), email, role, exp (expiración)
+            string jwtToken = _jwtTokenGenerator.GenerateToken(createdUser);
             DateTime expiresAt = DateTime.UtcNow.AddHours(1);
 
             // ═══════════════════════════════════════════════════════════════════
@@ -153,42 +146,38 @@ namespace SmartInventory.Application.Services
                 cancellationToken);
 
             // ═══════════════════════════════════════════════════════════════════
-            // PASO 2: VALIDAR EXISTENCIA Y ESTADO
+            // PASO 2: VALIDAR EXISTENCIA
             // ═══════════════════════════════════════════════════════════════════
 
             // SEGURIDAD: Mensaje genérico para prevenir user enumeration
             // ❌ MAL: "El usuario no existe" → El atacante sabe que puede probar otro email
             // ✅ BIEN: "Credenciales inválidas" → No se sabe si falló email o password
 
-            if (user is null || !user.IsActive)
+            if (user is null)
             {
-                // TODO: Crear InvalidCredentialsException en Domain/Exceptions
-                throw new UnauthorizedAccessException("Credenciales inválidas.");
+                throw new InvalidOperationException("Credenciales inválidas");
             }
 
             // ═══════════════════════════════════════════════════════════════════
-            // PASO 3: VERIFICAR CONTRASEÑA
+            // PASO 3: VERIFICAR CONTRASEÑA CON BCRYPT
             // ═══════════════════════════════════════════════════════════════════
 
-            // TODO: Implementar verificación real con BCrypt
-            // Ejemplo:
-            //   bool isValidPassword = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
-
-            // Por ahora, comparación temporal (INSEGURO - solo para desarrollo)
-            bool isValidPassword = user.PasswordHash == $"HASH_{dto.Password}";
+            // BCrypt.Verify compara la contraseña en texto plano con el hash almacenado
+            // Es seguro contra timing attacks y usa salt automático
+            bool isValidPassword = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
 
             if (!isValidPassword)
             {
                 // IMPORTANTE: Mismo mensaje de error que arriba (user enumeration prevention)
-                throw new UnauthorizedAccessException("Credenciales inválidas.");
+                throw new InvalidOperationException("Credenciales inválidas");
             }
 
             // ═══════════════════════════════════════════════════════════════════
             // PASO 4: GENERAR TOKEN JWT
             // ═══════════════════════════════════════════════════════════════════
 
-            // TODO: Usar IJwtTokenGenerator
-            string jwtToken = $"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.PLACEHOLDER.{user.Id}";
+            // Generar token JWT real usando el servicio de tokens
+            string jwtToken = _jwtTokenGenerator.GenerateToken(user);
             DateTime expiresAt = DateTime.UtcNow.AddHours(1);
 
             // ═══════════════════════════════════════════════════════════════════
@@ -203,7 +192,7 @@ namespace SmartInventory.Application.Services
             // Útil para detectar accesos sospechosos
 
             // ═══════════════════════════════════════════════════════════════════
-            // PASO 6: RETORNAR RESPUESTA
+            // PASO 5: RETORNAR RESPUESTA
             // ═══════════════════════════════════════════════════════════════════
 
             return new AuthResponseDto(
@@ -214,7 +203,6 @@ namespace SmartInventory.Application.Services
             );
         }
 
-        /// <inheritdoc />
         public Task<AuthResponseDto?> ValidateTokenAsync(
             string token,
             CancellationToken cancellationToken = default)

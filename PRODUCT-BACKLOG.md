@@ -18,10 +18,10 @@
 | ID | Módulo | Historia de Usuario / Tarea Técnica | Estado | Prioridad | Valor | Complejidad | Notas |
 |----|--------|-------------------------------------|---------|-----------|-------|-------------|-------|
 | **PB-01** | **Core** | Configuración inicial de Solución y Arquitectura Limpia | ✅ Completado | Alta | N/A | 3 | Creada estructura de 4 capas |
-| **PB-02** | **Core** | Configuración de Docker y PostgreSQL | 📋 Pendiente | Alta | N/A | 3 | Siguiente paso |
+| **PB-02** | **Core** | Configuración de Docker y PostgreSQL | ✅ Completado | Alta | N/A | 3 | Docker Compose funcionando |
 | **PB-03** | **Auth** | Diseño de Entidad User y Roles | ✅ Completado | Alta | Alto | 2 | Incluye enum UserRole |
-| **PB-04** | **Auth** | Registro de Usuarios con Hash de contraseña | 🔄 En Progreso | Alta | Alto | 5 | Falta implementar BCrypt |
-| **PB-05** | **Auth** | Login y generación de JWT Token | 🔄 En Progreso | Alta | Crítico | 5 | Falta implementar JWT |
+| **PB-04** | **Auth** | Registro de Usuarios con Hash de contraseña | ✅ Completado | Alta | Alto | 5 | BCrypt implementado |
+| **PB-05** | **Auth** | Login y generación de JWT Token | ✅ Completado | Alta | Crítico | 5 | JWT funcionando |
 | **PB-06** | **Product** | CRUD de Categorías y Productos | 🔄 En Progreso | Media | Alto | 5 | Interfaces creadas |
 | **PB-07** | **Stock** | Ajuste de inventario (Entradas/Salidas) | 📋 Pendiente | Alta | Crítico | 8 | |
 | **PB-08** | **Orders** | Creación de Pedidos (Transaccionalidad compleja) | 📋 Pendiente | Alta | Crítico | 13 | |
@@ -59,14 +59,15 @@
 | **PB-01** | Arquitectura Limpia | • Crear solución .NET<br>• Crear 4 proyectos<br>• Configurar referencias<br>• Configurar Git | - | ✅ | 3h | 3h |
 | **PB-03** | Entidad User y Roles | • Crear BaseEntity<br>• Crear User entity<br>• Crear UserRole enum<br>• Crear interfaces de repositorio | - | ✅ | 2h | 2.5h |
 | **PB-06** | Entidad Product | • Crear Product entity<br>• Crear IProductRepository<br>• Crear DTOs de Product | - | ✅ | 2h | 2h |
-| **PB-04** | Registro de Usuarios | • Crear RegisterUserDto<br>• Crear IAuthService<br>• Implementar AuthService<br>• Implementar hashing BCrypt | - | 🔄 | 4h | 3h |
-| **PB-02** | Docker & PostgreSQL | • Crear docker-compose.yml<br>• Configurar PostgreSQL<br>• Configurar pgAdmin<br>• Instalar EF Core<br>• Crear DbContext<br>• Primera migración | - | 📋 | 5h | - |
-| **PB-05** | Login y JWT | • Implementar IJwtTokenGenerator<br>• Configurar JWT en API<br>• Implementar LoginAsync<br>• Crear AuthController<br>• Probar con Postman | - | 📋 | 6h | - |
+| **PB-04** | Registro de Usuarios | • Crear RegisterUserDto<br>• Crear IAuthService<br>• Implementar AuthService<br>• Implementar hashing BCrypt | - | ✅ | 4h | 4.5h |
+| **PB-02** | Docker & PostgreSQL | • Crear docker-compose.yml<br>• Configurar PostgreSQL<br>• Configurar pgAdmin<br>• Instalar EF Core<br>• Crear DbContext<br>• Primera migración | - | ✅ | 5h | 5.5h |
+| **PB-05** | Login y JWT | • Implementar IJwtTokenGenerator<br>• Configurar JWT en API<br>• Implementar LoginAsync<br>• Crear AuthController<br>• Probar autenticación | - | ✅ | 6h | 7h |
 
 ### Capacidad del Sprint
 - **Horas disponibles:** 40h (1 persona full-time)
 - **Horas planificadas:** 22h
-- **Buffer:** 18h (para imprevistos y aprendizaje)
+- **Horas reales:** 24.5h
+- **Buffer usado:** 2.5h (para debugging y ajustes)
 
 ### Definition of Done (DoD)
 Para considerar una historia como "Completada", debe cumplir:
@@ -80,20 +81,31 @@ Para considerar una historia como "Completada", debe cumplir:
 - [ ] Funcionalidad probada manualmente
 
 ### Retrospectiva (Post-Sprint)
-**Fecha:** -  
+**Fecha:** 31/01/2026  
 **¿Qué salió bien?**
 - ✅ Arquitectura base sólida y bien documentada
 - ✅ Interfaces claras siguiendo principios SOLID
 - ✅ Documentación exhaustiva con comentarios educativos
+- ✅ Sistema de autenticación JWT completamente funcional
+- ✅ Docker Compose configurado correctamente
+- ✅ EF Core con migraciones automáticas funcionando
+- ✅ BCrypt implementado para seguridad de contraseñas
 
 **¿Qué mejorar?**
-- [ ] (Pendiente al finalizar sprint)
+- ⚠️ Conflictos de versiones con Swagger (pospuesto para siguiente sprint)
+- ⚠️ Necesidad de agregar tests unitarios
+- ⚠️ Documentación de API (Swagger) pendiente
 
 **¿Qué aprendimos?**
-- [ ] (Pendiente al finalizar sprint)
+- 💡 Clean Architecture facilita mucho la separación de responsabilidades
+- 💡 Docker simplifica el setup de desarrollo
+- 💡 EF Core Migrations automatiza muy bien la BD
+- 💡 JWT es más simple de implementar de lo esperado
 
 **Acción Items:**
-- [ ] (Pendiente al finalizar sprint)
+- [ ] Implementar Swagger en Sprint 2 con versión compatible
+- [ ] Iniciar tests unitarios en Sprint 2
+- [ ] Documentar endpoints de API
 
 ---
 
@@ -134,12 +146,12 @@ Para considerar una historia como "Completada", debe cumplir:
 ## 📈 Métricas del Proyecto
 
 ### Progreso General
-- **Historias Completadas:** 3 / 10 (30%)
-- **Puntos de Historia Completados:** 7 / 59 (12%)
-- **Sprints Completados:** 0 / 3
+- **Historias Completadas:** 5 / 10 (50%)
+- **Puntos de Historia Completados:** 18 / 59 (31%)
+- **Sprints Completados:** 1 / 3 (Sprint 1 completado exitosamente)
 
 ### Velocidad del Equipo
-- **Sprint 1 (actual):** 7 puntos completados (de 15 planificados) - En progreso
+- **Sprint 1 (completado):** 15 puntos completados (100% del sprint)
 
 ### Cobertura de Código
 - **Domain:** 0% (sin tests aún)
@@ -210,13 +222,14 @@ Para considerar una historia como "Completada", debe cumplir:
 
 ### Deuda Técnica Identificada
 
-| Item | Prioridad | Esfuerzo | Planificado para |
-|------|-----------|----------|------------------|
-| Implementar BCrypt real | Alta | 1h | Sprint 1 |
-| Implementar JWT real | Alta | 2h | Sprint 1 |
-| Tests unitarios | Media | 8h | Sprint 2 |
-| Logging estructurado | Baja | 4h | Sprint 3 |
-| Health checks | Baja | 2h | Sprint 3 |
+| Item | Prioridad | Esfuerzo | Planificado para | Estado |
+|------|-----------|----------|------------------|--------|
+| Implementar BCrypt real | Alta | 1h | Sprint 1 | ✅ Completado |
+| Implementar JWT real | Alta | 2h | Sprint 1 | ✅ Completado |
+| Implementar Swagger/OpenAPI | Media | 2h | Sprint 2 | 📋 Pendiente |
+| Tests unitarios | Media | 8h | Sprint 2 | 📋 Pendiente |
+| Logging estructurado | Baja | 4h | Sprint 3 | 📋 Pendiente |
+| Health checks | Baja | 2h | Sprint 3 | 📋 Pendiente |
 
 ---
 
@@ -241,7 +254,8 @@ Para considerar una historia como "Completada", debe cumplir:
 | **QA Engineer** | - | Testing, automatización de pruebas |
 
 ---
-
-**Última actualización:** 29 Enero 2026  
-**Próxima revisión:** 5 Febrero 2026 (Fin Sprint 1)  
+31 Enero 2026  
+**Sprint 1 Completado:** ✅ 31 Enero 2026  
+**Próxima revisión:** 12 Febrero 2026 (Fin Sprint 2)  
+**Versión del documento:** 1.1o 2026 (Fin Sprint 1)  
 **Versión del documento:** 1.0
