@@ -34,7 +34,10 @@ namespace SmartInventory.Application.DTOs.Products
     ///   "sku": "LAPTOP-2024-001",
     ///   "price": 1299.99,
     ///   "stockQuantity": 50,
-    ///   "createdAt": "2024-01-15T10:30:00Z"
+    ///   "createdAt": "2024-01-15T10:30:00Z",
+    ///   "minimumStockLevel": 10,
+    ///   "category": "Electronics",
+    ///   "lastModifiedAt": "2024-01-20T12:00:00Z"
     /// }
     /// </remarks>
     /// <param name="Id">Identificador único del producto.</param>
@@ -44,6 +47,9 @@ namespace SmartInventory.Application.DTOs.Products
     /// <param name="Price">Precio unitario.</param>
     /// <param name="StockQuantity">Cantidad disponible en inventario.</param>
     /// <param name="CreatedAt">Fecha de creación (útil para ordenamiento).</param>
+    /// <param name="MinimumStockLevel">Nivel mínimo de stock para alertas.</param>
+    /// <param name="Category">Categoría del producto.</param>
+
     public record ProductResponseDto(
         int Id,
         string Name,
@@ -51,6 +57,10 @@ namespace SmartInventory.Application.DTOs.Products
         string SKU,
         decimal Price,
         int StockQuantity,
-        DateTime CreatedAt
+        DateTime CreatedAt,
+        int MinimumStockLevel,
+        string Category
+
+
     );
 }

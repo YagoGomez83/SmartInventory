@@ -80,5 +80,43 @@ namespace SmartInventory.Domain.Entities
         /// o implementar Optimistic Locking con EF Core.
         /// </remarks>
         public int StockQuantity { get; set; }
+
+        /// <summary>
+        /// Nivel mínimo de stock antes de generar una alerta de reabastecimiento.  
+        /// </summary>
+        /// <remarks>
+        /// Este valor se utiliza para activar notificaciones o pedidos automáticos
+        /// cuando el stock disponible cae por debajo de este umbral.
+        /// </remarks>
+        public int MinimumStockLevel { get; set; }
+
+        /// <summary>
+        /// Categoría a la que pertenece el producto.
+        /// </summary>
+        /// <remarks>
+        /// Utilizado para agrupar productos similares y facilitar búsquedas y filtros.
+        /// </remarks>
+        public string Category { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Colección de movimientos de stock asociados a este producto (Kardex).
+        /// </summary>
+        /// <remarks>
+        /// PATRÓN EVENT SOURCING:
+        /// - Esta colección representa el HISTORIAL COMPLETO de movimientos de inventario.
+        /// - El StockQuantity actual debería calcularse como:
+        ///   Stock = Σ Purchase.Quantity - Σ Sale.Quantity ± Adjustment.Quantity
+        /// 
+        /// IMPORTANTE:
+        /// - En lectura normal (GET /products), NO cargar esto (performance).
+        /// - Solo cargar con .Include() cuando se necesite auditoría o reportes.
+        /// - Para mostrar últimos movimientos, usar:
+        ///   .Include(p => p.StockMovements.OrderByDescending(m => m.CreatedAt).Take(10))
+        /// 
+        /// CONSISTENCIA:
+        /// - Al crear un movimiento, SIEMPRE actualizar Product.StockQuantity en la misma transacción.
+        /// - Esto garantiza que el stock calculado = stock almacenado (denormalización controlada).
+        /// </remarks>
+        public ICollection<StockMovement> StockMovements { get; set; } = new List<StockMovement>();
     }
 }

@@ -51,6 +51,11 @@ namespace SmartInventory.Infrastructure.Data
         public DbSet<Product> Products => Set<Product>();
 
         /// <summary>
+        /// DbSet que representa la tabla de movimientos de stock (Kardex).
+        /// </summary>
+        public DbSet<StockMovement> StockMovements => Set<StockMovement>();
+
+        /// <summary>
         /// Configuración del modelo de base de datos.
         /// </summary>
         /// <param name="modelBuilder">Constructor del modelo proporcionado por EF Core.</param>

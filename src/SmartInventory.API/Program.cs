@@ -8,15 +8,21 @@ using SmartInventory.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Agregar soporte para Controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
-// Agregar soporte para Controllers
-builder.Services.AddControllers();
+
 
 // Configurar DbContext con PostgreSQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -32,6 +38,15 @@ builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 // Registro de Servicios (Application Layer)
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Repositorios
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+// Servicios
+builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddScoped<IStockMovementRepository, StockMovementRepository>();
+builder.Services.AddScoped<IStockService, StockService>();
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONFIGURACIÓN DE AUTENTICACIÓN JWT
@@ -58,7 +73,10 @@ builder.Services.AddAuthentication(defaultScheme: JwtBearerDefaults.Authenticati
             ValidIssuer = jwtSettings["Issuer"],
             ValidAudience = jwtSettings["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtSettings["Secret"]!))
+                Encoding.UTF8.GetBytes(jwtSettings["Secret"]!)),
+            // Mapeo de claims para que ASP.NET Core reconozca correctamente los roles
+            RoleClaimType = ClaimTypes.Role,
+            NameClaimType = ClaimTypes.Name
         };
     });
 
@@ -67,20 +85,33 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Aplicar migraciones automáticamente al iniciar la aplicación
-try
-{
-    using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+// Aplicar migraciones automáticamente al iniciar la aplicación con reintentos
+var maxRetries = 10;
+var delay = TimeSpan.FromSeconds(3);
 
-    app.Logger.LogInformation("Aplicando migraciones pendientes...");
-    await context.Database.MigrateAsync();
-    app.Logger.LogInformation("Migraciones aplicadas exitosamente.");
-}
-catch (Exception ex)
+for (int i = 0; i < maxRetries; i++)
 {
-    app.Logger.LogError(ex, "Error al aplicar migraciones a la base de datos.");
-    throw;
+    try
+    {
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        app.Logger.LogInformation("Intentando conectar a la base de datos... (Intento {Attempt}/{MaxRetries})", i + 1, maxRetries);
+        await context.Database.MigrateAsync();
+        app.Logger.LogInformation("Migraciones aplicadas exitosamente.");
+        break; // Salir del bucle si tiene éxito
+    }
+    catch (Exception ex)
+    {
+        if (i == maxRetries - 1)
+        {
+            app.Logger.LogError(ex, "Error al aplicar migraciones después de {MaxRetries} intentos.", maxRetries);
+            throw;
+        }
+
+        app.Logger.LogWarning(ex, "Error al conectar a la base de datos. Reintentando en {Delay} segundos...", delay.TotalSeconds);
+        await Task.Delay(delay);
+    }
 }
 
 // Configure the HTTP request pipeline.

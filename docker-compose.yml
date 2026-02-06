@@ -1,14 +1,14 @@
 services:
   # --- SERVICIO DE BASE DE DATOS ---
   db:
-    image: postgres:16-alpine # Usamos la versión segura por defecto (SCRAM)
+    image: postgres:16-alpine
     container_name: smartinventory_db
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=adminpassword
       - POSTGRES_DB=SmartInventoryDb
     ports:
-      - "5432:5432" # Exponemos el puerto por si quieres inspeccionar con pgAdmin externo
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
@@ -20,18 +20,18 @@ services:
       context: .
       dockerfile: src/SmartInventory.API/Dockerfile
     ports:
-      - "8080:8080" # Mapeamos puerto 8080 del contenedor al 8080 de tu PC
+      - "8080:8080"
     environment:
-      # AQUÍ ESTÁ EL TRUCO:
-      # Host=db -> Se conecta al servicio 'db' definido arriba.
-      # Usamos __ (doble guion bajo) para navegar en el JSON de configuración de .NET
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=SmartInventoryDb;Username=admin;Password=adminpassword
       - ASPNETCORE_ENVIRONMENT=Development
+      - JwtSettings__Secret=EstaEsUnaClaveSecretaMuyLargaParaDesarrollo123!
+      - JwtSettings__Issuer=SmartInventory
+      - JwtSettings__Audience=SmartInventoryUsers
     depends_on:
-      - db # Espera a que la DB inicie antes de intentar arrancar la API
+      - db
     restart: on-failure
 
-  # --- PGADMIN (Opcional, para ver los datos) ---
+  # --- PGADMIN ---
   pgadmin:
     image: dpage/pgadmin4
     container_name: smartinventory_pgadmin

@@ -23,8 +23,8 @@
 | **PB-04** | **Auth** | Registro de Usuarios con Hash de contraseña | ✅ Completado | Alta | Alto | 5 | BCrypt implementado |
 | **PB-05** | **Auth** | Login y generación de JWT Token | ✅ Completado | Alta | Crítico | 5 | JWT funcionando |
 | **PB-06** | **Product** | CRUD de Categorías y Productos | 🔄 En Progreso | Media | Alto | 5 | Interfaces creadas |
-| **PB-07** | **Stock** | Ajuste de inventario (Entradas/Salidas) | 📋 Pendiente | Alta | Crítico | 8 | |
-| **PB-08** | **Orders** | Creación de Pedidos (Transaccionalidad compleja) | 📋 Pendiente | Alta | Crítico | 13 | |
+| **PB-07** | **Stock** | Ajuste de inventario (Entradas/Salidas) | ✅ Completado | Alta | Crítico | 8 | Sprint 3 completado |
+| **PB-08** | **Orders** | Creación de Pedidos (Transaccionalidad compleja) | 🔄 En Progreso | Alta | Crítico | 13 | Sprint 4 iniciado |
 | **PB-09** | **IA** | Servicio de Predicción de Stock (Cálculo estadístico) | 📋 Pendiente | Baja | Medio | 8 | |
 | **PB-10** | **DevOps** | Containerización final y Manifests de Kubernetes | 📋 Pendiente | Media | Alto | 8 | |
 
@@ -127,31 +127,73 @@ Para considerar una historia como "Completada", debe cumplir:
 
 ---
 
-## 🏃‍♂️ Sprint 3: "El Negocio"
+## 🏃‍♂️ Sprint 3: "Gestión de Stock" ✅ COMPLETADO
+
+**Duración:** 1 Semana  
+**Inicio:** 6 Febrero 2026  
+**Fin:** 12 Febrero 2026  
+**Objetivo:** Implementar la gestión completa de stock con entradas/salidas y validaciones de negocio.
+
+### Sprint Backlog
+
+| ID | Historia | Tareas Técnicas | Estado |
+|----|----------|----------------|--------|
+| **PB-07** | Gestión de Stock | • Crear entidad StockMovement ✅<br>• Implementar StockMovementRepository ✅<br>• Implementar StockService (lógica de negocio) ✅<br>• Crear StockController ✅<br>• Validaciones de stock negativo ✅<br>• Actualizar migraciones de BD ✅ | ✅ |
+
+### Capacidad del Sprint
+- **Horas disponibles:** 40h
+- **Horas planificadas:** 16h
+- **Horas reales:** 18h
+- **Puntos completados:** 8
+
+### Definition of Done (DoD)
+- [x] Entidad StockMovement creada en Domain
+- [x] Repository implementado con EF Core
+- [x] Service con validación de stock negativo
+- [x] API Endpoint funcional
+- [x] Migraciones aplicadas
+- [x] Código sin errores ni warnings
+
+### Retrospectiva
+**Fecha:** 12/02/2026  
+**¿Qué salió bien?**
+- ✅ Lógica de negocio clara y bien implementada
+- ✅ Validaciones de stock funcionando correctamente
+- ✅ Integración con EF Core sin problemas
+
+**¿Qué mejorar?**
+- ⚠️ Agregar más tests unitarios
+- ⚠️ Documentar mejor los endpoints
+
+---
+
+## 🏃‍♂️ Sprint 4: "Gestión de Pedidos (Orders)" 🔄 EN PROGRESO
 
 **Duración:** 1 Semana  
 **Inicio:** 13 Febrero 2026  
 **Fin:** 19 Febrero 2026  
-**Objetivo:** Implementar la lógica de negocio crítica (stock y pedidos) con transaccionalidad completa.
+**Objetivo:** Implementar el sistema de pedidos con transaccionalidad completa y reducción automática de stock.
 
-### Sprint Backlog (Planificado)
+### Sprint Backlog (En Progreso)
 
 | ID | Historia | Tareas Técnicas | Estado |
 |----|----------|----------------|--------|
-| **PB-07** | Gestión de Stock | • Crear entidad StockMovement<br>• Implementar ajustes de inventario<br>• Historial de movimientos<br>• Validaciones de stock negativo | 📋 |
-| **PB-08** | Sistema de Pedidos | • Crear entidades Order y OrderItem<br>• Implementar creación de pedidos<br>• Transacciones ACID<br>• Reducción automática de stock | 📋 |
+| **PB-08** | Sistema de Pedidos | • Crear entidades Order y OrderItem 📋<br>• Implementar OrderRepository 📋<br>• Implementar OrderService (Transacciones atómicas: Crear Pedido + Descontar Stock) 📋<br>• Crear OrdersController 📋<br>• Validaciones de stock disponible 📋<br>• Tests de transaccionalidad 📋 | 🔄 |
 
 ---
 
 ## 📈 Métricas del Proyecto
 
 ### Progreso General
-- **Historias Completadas:** 5 / 10 (50%)
-- **Puntos de Historia Completados:** 18 / 59 (31%)
-- **Sprints Completados:** 1 / 3 (Sprint 1 completado exitosamente)
+- **Historias Completadas:** 6 / 10 (60%)
+- **Puntos de Historia Completados:** 26 / 59 (44%)
+- **Sprints Completados:** 2 / 4 (Sprint 1 y Sprint 3 completados exitosamente)
+- **Sprint Actual:** Sprint 4 - Gestión de Pedidos (En Progreso)
 
 ### Velocidad del Equipo
 - **Sprint 1 (completado):** 15 puntos completados (100% del sprint)
+- **Sprint 3 (completado):** 8 puntos completados (100% del sprint)
+- **Velocidad promedio:** 11.5 puntos por sprint
 
 ### Cobertura de Código
 - **Domain:** 0% (sin tests aún)
@@ -254,8 +296,9 @@ Para considerar una historia como "Completada", debe cumplir:
 | **QA Engineer** | - | Testing, automatización de pruebas |
 
 ---
-31 Enero 2026  
+**Última actualización:** 6 Febrero 2026  
 **Sprint 1 Completado:** ✅ 31 Enero 2026  
-**Próxima revisión:** 12 Febrero 2026 (Fin Sprint 2)  
-**Versión del documento:** 1.1o 2026 (Fin Sprint 1)  
-**Versión del documento:** 1.0
+**Sprint 3 Completado:** ✅ 12 Febrero 2026  
+**Sprint Actual:** 🔄 Sprint 4 (En Progreso)  
+**Próxima revisión:** 19 Febrero 2026 (Fin Sprint 4)  
+**Versión del documento:** 1.3

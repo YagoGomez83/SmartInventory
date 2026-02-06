@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SmartInventory.Infrastructure.Data;
@@ -11,9 +12,11 @@ using SmartInventory.Infrastructure.Data;
 namespace SmartInventory.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260203131322_AddProductFields")]
+    partial class AddProductFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,66 +88,6 @@ namespace SmartInventory.Infrastructure.Data.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("SmartInventory.Domain.Entities.StockMovement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasComment("Fecha UTC de creación del movimiento.");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("integer")
-                        .HasComment("ID del usuario que realizó el movimiento. Obligatorio para auditoría.");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasComment("Indica si el registro está activo (soft delete).");
-
-                    b.Property<DateTime?>("LastModifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer")
-                        .HasComment("Cantidad de unidades en el movimiento. Siempre positivo.");
-
-                    b.Property<string>("Reason")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasComment("Razón o motivo del movimiento. Obligatorio para ajustes, opcional para compras/ventas.");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasComment("Tipo de movimiento: Purchase (entrada), Sale (salida), Adjustment (ajuste).");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedAt")
-                        .HasDatabaseName("IX_StockMovements_CreatedAt");
-
-                    b.HasIndex("ProductId")
-                        .HasDatabaseName("IX_StockMovements_ProductId");
-
-                    b.HasIndex("Type")
-                        .HasDatabaseName("IX_StockMovements_Type");
-
-                    b.HasIndex("ProductId", "CreatedAt")
-                        .HasDatabaseName("IX_StockMovements_ProductId_CreatedAt");
-
-                    b.ToTable("StockMovements", (string)null);
-                });
-
             modelBuilder.Entity("SmartInventory.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -196,23 +139,6 @@ namespace SmartInventory.Infrastructure.Data.Migrations
                         .HasDatabaseName("IX_Users_Email");
 
                     b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("SmartInventory.Domain.Entities.StockMovement", b =>
-                {
-                    b.HasOne("SmartInventory.Domain.Entities.Product", "Product")
-                        .WithMany("StockMovements")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_StockMovements_Products");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("SmartInventory.Domain.Entities.Product", b =>
-                {
-                    b.Navigation("StockMovements");
                 });
 #pragma warning restore 612, 618
         }

@@ -51,6 +51,9 @@ namespace SmartInventory.Application.DTOs.Products
         string Description,
         string SKU,
         decimal Price,
-        int StockQuantity
+        int StockQuantity,
+        int MinimumStockLevel,
+        string Category,
+        DateTime LastModifiedAt
     );
 }
