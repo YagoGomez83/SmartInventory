@@ -5,6 +5,19 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>819d4411-5d43-47f4-8216-ba663ae591eb</UserSecretsId>
+    
+    <!-- ═══════════════════════════════════════════════════════════════════════════════
+         HABILITAR GENERACIÓN DE XML DOCUMENTATION
+         ═══════════════════════════════════════════════════════════════════════════════
+         GenerateDocumentationFile: Genera un archivo .xml con todos los comentarios ///
+         NoWarn 1591: Suprime warnings por métodos sin documentar (opcional)
+         
+         Ahora cuando escribas:
+         /// <summary>Obtiene todos los productos</summary>
+         Swagger mostrará ese texto en la UI web ¡Documentación automática!
+    -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +28,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>

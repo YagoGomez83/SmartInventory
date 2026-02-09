@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.API", "src\SmartInventory.API\SmartInventory.API.csproj", "{C5781218-E7A7-4654-8401-2B9F2873044B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventory.UnitTests", "src\SmartInventory.UnitTests\SmartInventory.UnitTests.csproj", "{ED11A644-AB03-4375-A457-83E5A22862B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,18 @@ Global
 		{C5781218-E7A7-4654-8401-2B9F2873044B}.Release|x64.Build.0 = Release|Any CPU
 		{C5781218-E7A7-4654-8401-2B9F2873044B}.Release|x86.ActiveCfg = Release|Any CPU
 		{C5781218-E7A7-4654-8401-2B9F2873044B}.Release|x86.Build.0 = Release|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Debug|x64.Build.0 = Debug|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Debug|x86.Build.0 = Debug|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Release|x64.ActiveCfg = Release|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Release|x64.Build.0 = Release|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Release|x86.ActiveCfg = Release|Any CPU
+		{ED11A644-AB03-4375-A457-83E5A22862B7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +94,6 @@ Global
 		{99936CB8-A535-4EB2-AA46-40EF28D4BEFB} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{A5C0B037-36E2-4B08-9352-C6B590DA3653} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{C5781218-E7A7-4654-8401-2B9F2873044B} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{ED11A644-AB03-4375-A457-83E5A22862B7} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

@@ -10,6 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,69 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
+// Configurar Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "SmartInventory API",
+        Version = "v1",
+        Description = "API para gestión inteligente de inventario con Clean Architecture",
+        Contact = new OpenApiContact
+        {
+            Name = "SmartInventory Team",
+            Email = "contact@smartinventory.com"
+        }
+    });
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // CONFIGURACIÓN DE SEGURIDAD JWT EN SWAGGER
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // Esto agrega el botón "Authorize" en la UI de Swagger que permite:
+    // 1. Hacer clic en "Authorize"
+    // 2. Pegar tu token JWT (sin "Bearer", solo el token)
+    // 3. Swagger automáticamente enviará "Authorization: Bearer {token}" en todos los requests
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header usando el esquema Bearer. Ejemplo: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // HABILITAR XML COMMENTS PARA DOCUMENTACIÓN
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // Esto permite que Swagger lea los comentarios /// <summary> de tus controladores
+    // y los muestre en la interfaz web. ¡Hace que tu API se auto-documente!
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+    if (File.Exists(xmlPath))
+    {
+        options.IncludeXmlComments(xmlPath);
+    }
+});
 
 
 
@@ -124,6 +189,22 @@ for (int i = 0; i < maxRetries; i++)
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // HABILITAR SWAGGER UI
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // Swagger estará disponible en: https://localhost:5001/swagger
+    // Aquí podrás:
+    // - Ver todos tus endpoints documentados
+    // - Probar cada endpoint directamente desde el navegador
+    // - Usar el botón "Authorize" para autenticarte con JWT
+
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartInventory API v1");
+        options.RoutePrefix = "swagger"; // Accesible en /swagger
+    });
 }
 
 app.UseHttpsRedirection();
