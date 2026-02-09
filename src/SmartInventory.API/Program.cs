@@ -33,6 +33,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Registro de Repositorios (Infrastructure Layer)
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 // Registro de Servicios de Autenticación
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
@@ -48,6 +50,10 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IStockMovementRepository, StockMovementRepository>();
 builder.Services.AddScoped<IStockService, StockService>();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+builder.Services.AddScoped<IOrderService, OrderService>();
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONFIGURACIÓN DE AUTENTICACIÓN JWT
 // ═══════════════════════════════════════════════════════════════════════════════

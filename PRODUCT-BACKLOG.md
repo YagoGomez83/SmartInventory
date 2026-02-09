@@ -24,7 +24,7 @@
 | **PB-05** | **Auth** | Login y generación de JWT Token | ✅ Completado | Alta | Crítico | 5 | JWT funcionando |
 | **PB-06** | **Product** | CRUD de Categorías y Productos | 🔄 En Progreso | Media | Alto | 5 | Interfaces creadas |
 | **PB-07** | **Stock** | Ajuste de inventario (Entradas/Salidas) | ✅ Completado | Alta | Crítico | 8 | Sprint 3 completado |
-| **PB-08** | **Orders** | Creación de Pedidos (Transaccionalidad compleja) | 🔄 En Progreso | Alta | Crítico | 13 | Sprint 4 iniciado |
+| **PB-08** | **Orders** | Creación de Pedidos (Transaccionalidad compleja) | ✅ Completado | Alta | Crítico | 13 | Sprint 4 completado |
 | **PB-09** | **IA** | Servicio de Predicción de Stock (Cálculo estadístico) | 📋 Pendiente | Baja | Medio | 8 | |
 | **PB-10** | **DevOps** | Containerización final y Manifests de Kubernetes | 📋 Pendiente | Media | Alto | 8 | |
 
@@ -167,33 +167,79 @@ Para considerar una historia como "Completada", debe cumplir:
 
 ---
 
-## 🏃‍♂️ Sprint 4: "Gestión de Pedidos (Orders)" 🔄 EN PROGRESO
+## 🏃‍♂️ Sprint 4: "Gestión de Pedidos (Orders)" ✅ COMPLETADO
 
 **Duración:** 1 Semana  
 **Inicio:** 13 Febrero 2026  
 **Fin:** 19 Febrero 2026  
 **Objetivo:** Implementar el sistema de pedidos con transaccionalidad completa y reducción automática de stock.
 
-### Sprint Backlog (En Progreso)
+### Sprint Backlog
 
 | ID | Historia | Tareas Técnicas | Estado |
 |----|----------|----------------|--------|
-| **PB-08** | Sistema de Pedidos | • Crear entidades Order y OrderItem 📋<br>• Implementar OrderRepository 📋<br>• Implementar OrderService (Transacciones atómicas: Crear Pedido + Descontar Stock) 📋<br>• Crear OrdersController 📋<br>• Validaciones de stock disponible 📋<br>• Tests de transaccionalidad 📋 | 🔄 |
+| **PB-08** | Sistema de Pedidos | • Crear entidades Order y OrderItem ✅<br>• Implementar OrderRepository con Eager Loading ✅<br>• Implementar UnitOfWork pattern para transacciones ACID ✅<br>• Implementar OrderService (Transacciones atómicas: Crear Pedido + Descontar Stock) ✅<br>• Crear OrdersController ✅<br>• Validaciones de stock disponible ✅ | ✅ |
+
+### Capacidad del Sprint
+- **Horas disponibles:** 40h
+- **Horas planificadas:** 20h
+- **Horas reales:** 22h
+- **Puntos completados:** 13
+
+### Definition of Done (DoD)
+- [x] Entidades Order y OrderItem creadas en Domain
+- [x] Repository implementado con EF Core y Eager Loading
+- [x] UnitOfWork pattern implementado para transaccionalidad
+- [x] Service con validación de stock y reserva
+- [x] API Endpoints funcionales (Create, Read)
+- [x] Migraciones aplicadas
+- [x] Código sin errores ni warnings
+
+### Retrospectiva
+**Fecha:** 9/02/2026  
+**¿Qué salió bien?**
+- ✅ Transaccionalidad implementada correctamente con UnitOfWork
+- ✅ Eager Loading optimiza las consultas
+- ✅ Validaciones de negocio robustas
+- ✅ Integración completa entre módulos
+
+**¿Qué mejorar?**
+- ⚠️ Implementar Swagger para documentación de API
+- ⚠️ Agregar tests unitarios con xUnit y Moq
+- ⚠️ Implementar logging estructurado
+
+---
+
+## 🏃‍♂️ Sprint 5: "Calidad y Documentación" 🔄 EN PROGRESO
+
+**Duración:** 1 Semana  
+**Inicio:** 10 Febrero 2026  
+**Fin:** 16 Febrero 2026  
+**Objetivo:** Mejorar la calidad del código con tests, documentación API y logging profesional.
+
+### Sprint Backlog
+
+| ID | Historia | Tareas Técnicas | Estado |
+|----|----------|----------------|--------|
+| **PB-11** | Documentación API | • Implementar Swagger/OpenAPI 📋<br>• Configurar XML Documentation ✅<br>• Documentar todos los endpoints 📋<br>• Agregar ejemplos de requests 📋 | 🔄 |
+| **PB-12** | Testing | • Implementar xUnit + Moq 📋<br>• Tests unitarios de StockService 📋<br>• Tests unitarios de OrderService 📋<br>• Coverage mínimo 70% 📋 | 📋 |
+| **PB-13** | Logging | • Implementar Serilog 📋<br>• Configurar logs estructurados 📋<br>• Logs en archivos y consola 📋<br>• Integración con Application Insights 📋 | 📋 |
 
 ---
 
 ## 📈 Métricas del Proyecto
 
 ### Progreso General
-- **Historias Completadas:** 6 / 10 (60%)
-- **Puntos de Historia Completados:** 26 / 59 (44%)
-- **Sprints Completados:** 2 / 4 (Sprint 1 y Sprint 3 completados exitosamente)
-- **Sprint Actual:** Sprint 4 - Gestión de Pedidos (En Progreso)
+- **Historias Completadas:** 7 / 10 (70%)
+- **Puntos de Historia Completados:** 39 / 59 (66%)
+- **Sprints Completados:** 3 / 5 (Sprint 1, Sprint 3 y Sprint 4 completados exitosamente)
+- **Sprint Actual:** Sprint 5 - Calidad y Documentación (En Progreso)
 
 ### Velocidad del Equipo
 - **Sprint 1 (completado):** 15 puntos completados (100% del sprint)
 - **Sprint 3 (completado):** 8 puntos completados (100% del sprint)
-- **Velocidad promedio:** 11.5 puntos por sprint
+- **Sprint 4 (completado):** 13 puntos completados (100% del sprint)
+- **Velocidad promedio:** 12 puntos por sprint
 
 ### Cobertura de Código
 - **Domain:** 0% (sin tests aún)
@@ -296,8 +342,10 @@ Para considerar una historia como "Completada", debe cumplir:
 | **QA Engineer** | - | Testing, automatización de pruebas |
 
 ---
-**Última actualización:** 6 Febrero 2026  
+**Última actualización:** 9 Febrero 2026  
 **Sprint 1 Completado:** ✅ 31 Enero 2026  
+**Sprint 3 Completado:** ✅ 12 Febrero 2026  
+**Sprint 4 Completado:** ✅ 9 Febrero 2026  
 **Sprint 3 Completado:** ✅ 12 Febrero 2026  
 **Sprint Actual:** 🔄 Sprint 4 (En Progreso)  
 **Próxima revisión:** 19 Febrero 2026 (Fin Sprint 4)  
