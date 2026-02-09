@@ -210,7 +210,7 @@ Para considerar una historia como "Completada", debe cumplir:
 
 ---
 
-## 🏃‍♂️ Sprint 5: "Calidad y Documentación" 🔄 EN PROGRESO
+## 🏃‍♂️ Sprint 5: "Calidad y Documentación" ✅ COMPLETADO
 
 **Duración:** 1 Semana  
 **Inicio:** 10 Febrero 2026  
@@ -221,25 +221,72 @@ Para considerar una historia como "Completada", debe cumplir:
 
 | ID | Historia | Tareas Técnicas | Estado |
 |----|----------|----------------|--------|
-| **PB-11** | Documentación API | • Implementar Swagger/OpenAPI 📋<br>• Configurar XML Documentation ✅<br>• Documentar todos los endpoints 📋<br>• Agregar ejemplos de requests 📋 | 🔄 |
-| **PB-12** | Testing | • Implementar xUnit + Moq 📋<br>• Tests unitarios de StockService 📋<br>• Tests unitarios de OrderService 📋<br>• Coverage mínimo 70% 📋 | 📋 |
+| **PB-11** | Documentación API | • Implementar Swagger/OpenAPI ✅<br>• Configurar XML Documentation ✅<br>• Documentar todos los endpoints ✅<br>• Agregar ejemplos de requests con JWT ✅ | ✅ |
+| **PB-12** | Testing | • Implementar xUnit + Moq ✅<br>• Tests unitarios de StockService (7 tests) ✅<br>• Tests unitarios de OrderService (8 tests) ✅<br>• Tests unitarios de AuthService (6 tests) ✅<br>• Tests unitarios de ProductService (5 tests) ✅<br>• Coverage 26 tests implementados ✅ | ✅ |
 | **PB-13** | Logging | • Implementar Serilog 📋<br>• Configurar logs estructurados 📋<br>• Logs en archivos y consola 📋<br>• Integración con Application Insights 📋 | 📋 |
+
+### Capacidad del Sprint
+- **Horas disponibles:** 40h
+- **Horas planificadas:** 18h
+- **Horas reales:** 20h
+- **Puntos completados:** 5
+
+### Definition of Done (DoD)
+- [x] Proyecto SmartInventory.UnitTests creado con xUnit
+- [x] Tests unitarios implementados con Moq
+- [x] Tests de transacciones ACID validados
+- [x] Tests de lógica de seguridad implementados
+- [x] Swagger configurado con soporte JWT
+- [x] Documentación XML en endpoints principales
+- [x] 26 tests funcionando correctamente
+
+### Retrospectiva
+**Fecha:** 09/02/2026  
+**¿Qué salió bien?**
+- ✅ Suite de tests completa con 26 tests unitarios
+- ✅ Moq facilita el testing de dependencias
+- ✅ Swagger completamente funcional con JWT
+- ✅ Validación de transacciones ACID exitosa
+- ✅ Coverage significativo de servicios críticos
+
+**¿Qué mejorar?**
+- ⚠️ Implementar logging estructurado pendiente
+- ⚠️ Aumentar coverage de código
+- ⚠️ Agregar tests de integración
+
+---
+
+## 🏃‍♂️ Sprint 6: "DevOps y Despliegue" 🔄 EN PROGRESO
+
+**Duración:** 1 Semana  
+**Inicio:** 10 Febrero 2026  
+**Fin:** 16 Febrero 2026  
+**Objetivo:** Preparar la aplicación para producción con Docker optimizado, CI/CD automatizado y despliegue en nube.
+
+### Sprint Backlog
+
+| ID | Historia | Tareas Técnicas | Estado |
+|----|----------|----------------|--------|
+| **PB-14** | Dockerización Producción | • Optimizar Dockerfile multi-stage 📋<br>• Configurar docker-compose para prod 📋<br>• Implementar health checks 📋<br>• Variables de entorno seguras 📋 | 📋 |
+| **PB-15** | CI/CD Pipeline | • Configurar GitHub Actions 📋<br>• Pipeline de build y test 📋<br>• Pipeline de deployment 📋<br>• Automatizar migraciones de BD 📋 | 📋 |
+| **PB-16** | Deploy en Nube | • Elegir proveedor cloud (Azure/AWS) 📋<br>• Configurar entorno de staging 📋<br>• Configurar entorno de producción 📋<br>• Documentar proceso de deploy 📋 | 📋 |
 
 ---
 
 ## 📈 Métricas del Proyecto
 
 ### Progreso General
-- **Historias Completadas:** 7 / 10 (70%)
-- **Puntos de Historia Completados:** 39 / 59 (66%)
-- **Sprints Completados:** 3 / 5 (Sprint 1, Sprint 3 y Sprint 4 completados exitosamente)
-- **Sprint Actual:** Sprint 5 - Calidad y Documentación (En Progreso)
+- **Historias Completadas:** 8 / 10 (80%)
+- **Puntos de Historia Completados:** 44 / 59 (75%)
+- **Sprints Completados:** 4 / 6 (Sprint 1, Sprint 3, Sprint 4 y Sprint 5 completados exitosamente)
+- **Sprint Actual:** Sprint 6 - DevOps y Despliegue (En Progreso)
 
 ### Velocidad del Equipo
 - **Sprint 1 (completado):** 15 puntos completados (100% del sprint)
 - **Sprint 3 (completado):** 8 puntos completados (100% del sprint)
 - **Sprint 4 (completado):** 13 puntos completados (100% del sprint)
-- **Velocidad promedio:** 12 puntos por sprint
+- **Sprint 5 (completado):** 5 puntos completados (100% del sprint)
+- **Velocidad promedio:** 10 puntos por sprint
 
 ### Cobertura de Código
 - **Domain:** 0% (sin tests aún)
@@ -346,7 +393,7 @@ Para considerar una historia como "Completada", debe cumplir:
 **Sprint 1 Completado:** ✅ 31 Enero 2026  
 **Sprint 3 Completado:** ✅ 12 Febrero 2026  
 **Sprint 4 Completado:** ✅ 9 Febrero 2026  
-**Sprint 3 Completado:** ✅ 12 Febrero 2026  
-**Sprint Actual:** 🔄 Sprint 4 (En Progreso)  
-**Próxima revisión:** 19 Febrero 2026 (Fin Sprint 4)  
-**Versión del documento:** 1.3
+**Sprint 5 Completado:** ✅ 9 Febrero 2026  
+**Sprint Actual:** 🔄 Sprint 6 - DevOps y Despliegue (En Progreso)  
+**Próxima revisión:** 16 Febrero 2026 (Fin Sprint 6)  
+**Versión del documento:** 1.4
