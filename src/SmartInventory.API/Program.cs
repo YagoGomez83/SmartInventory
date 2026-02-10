@@ -125,10 +125,15 @@ if (connectionString.StartsWith("postgresql://") || connectionString.StartsWith(
     try
     {
         var uri = new Uri(connectionString);
-        var password = uri.UserInfo.Split(':')[1];
-        var username = uri.UserInfo.Split(':')[0];
-        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+        var userInfo = uri.UserInfo.Split(':');
+        var username = userInfo[0];
+        var password = userInfo.Length > 1 ? userInfo[1] : "";
+        var port = uri.Port > 0 ? uri.Port : 5432; // Puerto por defecto de PostgreSQL
+        var database = uri.AbsolutePath.TrimStart('/');
+        
+        connectionString = $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
         Console.WriteLine("✓ Connection String convertida de formato URL a formato Npgsql");
+        Console.WriteLine($"  Host: {uri.Host}, Port: {port}, Database: {database}, User: {username}");
     }
     catch (Exception ex)
     {
