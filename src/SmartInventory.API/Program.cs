@@ -90,13 +90,30 @@ builder.Services.AddSwaggerGen(options =>
 
 
 // Configurar DbContext con PostgreSQL
+// DIAGNÓSTICO: Verificar todas las formas posibles de leer la connection string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connStringFromEnv = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+var connStringDirect = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
-// Log para diagnóstico (NO mostrar contraseñas en producción)
+Console.WriteLine("═══════════════════════════════════════════════════════════");
+Console.WriteLine("DIAGNÓSTICO DE CONNECTION STRING:");
+Console.WriteLine($"1. GetConnectionString: {(string.IsNullOrEmpty(connectionString) ? "VACÍO ❌" : "OK ✓")}");
+Console.WriteLine($"2. Environment Variable: {(string.IsNullOrEmpty(connStringFromEnv) ? "VACÍO ❌" : "OK ✓")}");
+Console.WriteLine($"3. Configuration Direct: {(string.IsNullOrEmpty(connStringDirect) ? "VACÍO ❌" : "OK ✓")}");
+Console.WriteLine("═══════════════════════════════════════════════════════════");
+
+// Intentar usar cualquier valor disponible
+connectionString = connectionString ?? connStringFromEnv ?? connStringDirect;
+
 if (string.IsNullOrEmpty(connectionString))
 {
-    throw new InvalidOperationException("⚠️ ERROR: ConnectionStrings:DefaultConnection no está configurada. Verifica las variables de entorno en Render.");
+    throw new InvalidOperationException(
+        "⚠️ ERROR CRÍTICO: No se pudo leer ConnectionStrings:DefaultConnection\n" +
+        "Variables de entorno disponibles:\n" +
+        string.Join("\n", Environment.GetEnvironmentVariables().Keys.Cast<string>().OrderBy(k => k).Take(20)));
 }
+
+Console.WriteLine($"✓ Connection String seleccionada (primeros 30 chars): {connectionString.Substring(0, Math.Min(30, connectionString.Length))}...");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
