@@ -27,6 +27,8 @@
 | **PB-08** | **Orders** | Creación de Pedidos (Transaccionalidad compleja) | ✅ Completado | Alta | Crítico | 13 | Sprint 4 completado |
 | **PB-09** | **IA** | Servicio de Predicción de Stock (Cálculo estadístico) | 📋 Pendiente | Baja | Medio | 8 | |
 | **PB-10** | **DevOps** | Containerización final y Manifests de Kubernetes | 📋 Pendiente | Media | Alto | 8 | |
+| **PB-15** | **DevOps** | CI/CD Pipeline - Integración Continua (GitHub Actions) | ✅ Completado | Alta | Alto | 8 | 0 warnings, 26 tests pasando |
+| **PB-17** | **DevOps** | Despliegue Continuo (CD) en la Nube | 📋 Pendiente | Alta | Crítico | 8 | Azure/AWS deployment |
 
 ### Leyenda de Estados
 - ✅ **Completado**: Implementado y funcional
@@ -256,7 +258,7 @@ Para considerar una historia como "Completada", debe cumplir:
 
 ---
 
-## 🏃‍♂️ Sprint 6: "DevOps y Despliegue" 🔄 EN PROGRESO
+## 🏃‍♂️ Sprint 6: "Automatización CI/CD" ✅ COMPLETADO (Fase CI)
 
 **Duración:** 1 Semana  
 **Inicio:** 10 Febrero 2026  
@@ -268,24 +270,51 @@ Para considerar una historia como "Completada", debe cumplir:
 | ID | Historia | Tareas Técnicas | Estado |
 |----|----------|----------------|--------|
 | **PB-14** | Dockerización Producción | • Optimizar Dockerfile multi-stage 📋<br>• Configurar docker-compose para prod 📋<br>• Implementar health checks 📋<br>• Variables de entorno seguras 📋 | 📋 |
-| **PB-15** | CI/CD Pipeline | • Configurar GitHub Actions 📋<br>• Pipeline de build y test 📋<br>• Pipeline de deployment 📋<br>• Automatizar migraciones de BD 📋 | 📋 |
+| **PB-15** | CI/CD Pipeline (Fase CI) | • Configurar GitHub Actions ✅<br>• Pipeline de build y test ✅<br>• Pipeline de deployment 📋<br>• Automatizar migraciones de BD 📋 | ✅ |
 | **PB-16** | Deploy en Nube | • Elegir proveedor cloud (Azure/AWS) 📋<br>• Configurar entorno de staging 📋<br>• Configurar entorno de producción 📋<br>• Documentar proceso de deploy 📋 | 📋 |
+
+### Capacidad del Sprint
+- **Horas disponibles:** 40h
+- **Horas planificadas:** 16h
+- **Horas reales:** 18h
+- **Puntos completados:** 8
+
+### Definition of Done (DoD)
+- [x] GitHub Actions configurado
+- [x] Pipeline CI con build automatizado
+- [x] Pipeline CI con tests automatizados (26 tests)
+- [x] Build sin warnings (0 warnings)
+- [x] Todos los tests pasando (26/26)
+
+### Retrospectiva
+**Fecha:** 10/02/2026  
+**¿Qué salió bien?**
+- ✅ Pipeline de GitHub Actions configurado exitosamente con 0 warnings y 26 tests pasando
+- ✅ Configuración YAML clara y bien estructurada
+- ✅ Integración completa con .NET 8.0
+- ✅ Tests ejecutándose automáticamente en cada push/PR
+
+**¿Qué mejorar?**
+- ⚠️ Implementar fase de Deployment (CD)
+- ⚠️ Configurar despliegue automático a la nube
+- ⚠️ Agregar notificaciones de estado del pipeline
 
 ---
 
 ## 📈 Métricas del Proyecto
 
 ### Progreso General
-- **Historias Completadas:** 8 / 10 (80%)
-- **Puntos de Historia Completados:** 44 / 59 (75%)
-- **Sprints Completados:** 4 / 6 (Sprint 1, Sprint 3, Sprint 4 y Sprint 5 completados exitosamente)
-- **Sprint Actual:** Sprint 6 - DevOps y Despliegue (En Progreso)
+- **Historias Completadas:** 9 / 11 (82%)
+- **Puntos de Historia Completados:** 52 / 67 (78%)
+- **Sprints Completados:** 5 / 6 (Sprint 1, Sprint 3, Sprint 4, Sprint 5 y Sprint 6 completados exitosamente)
+- **Sprint Actual:** Sprint 7 - Despliegue Continuo (CD) (Planificado)
 
 ### Velocidad del Equipo
 - **Sprint 1 (completado):** 15 puntos completados (100% del sprint)
 - **Sprint 3 (completado):** 8 puntos completados (100% del sprint)
 - **Sprint 4 (completado):** 13 puntos completados (100% del sprint)
 - **Sprint 5 (completado):** 5 puntos completados (100% del sprint)
+- **Sprint 6 (completado):** 8 puntos completados (100% del sprint - Fase CI)
 - **Velocidad promedio:** 10 puntos por sprint
 
 ### Cobertura de Código
@@ -389,11 +418,34 @@ Para considerar una historia como "Completada", debe cumplir:
 | **QA Engineer** | - | Testing, automatización de pruebas |
 
 ---
-**Última actualización:** 9 Febrero 2026  
+
+## 🏃‍♂️ Sprint 7: "Despliegue Continuo (CD) en la Nube" 📋 PRÓXIMO
+
+**Duración:** 1 Semana  
+**Inicio:** 17 Febrero 2026  
+**Fin:** 23 Febrero 2026  
+**Objetivo:** Implementar el despliegue automático a la nube (Azure/AWS) con ambiente de staging y producción.
+
+### Sprint Backlog (Planificado)
+
+| ID | Historia | Tareas Técnicas | Estado |
+|----|----------|----------------|--------|
+| **PB-17** | Despliegue Continuo (CD) | • Elegir proveedor cloud (Azure o AWS) 📋<br>• Configurar Azure App Service o AWS ECS 📋<br>• Configurar base de datos PostgreSQL en la nube 📋<br>• Extender GitHub Actions con CD pipeline 📋<br>• Configurar secrets y variables de entorno 📋<br>• Implementar despliegue a staging 📋<br>• Implementar despliegue a producción 📋<br>• Automatizar migraciones de BD 📋<br>• Configurar health checks en cloud 📋<br>• Documentar proceso de deployment 📋 | 📋 |
+| **PB-18** | Monitoreo y Observabilidad | • Configurar Application Insights (Azure) o CloudWatch (AWS) 📋<br>• Implementar logging estructurado con Serilog 📋<br>• Configurar alertas de errores 📋<br>• Dashboard de monitoreo 📋 | 📋 |
+
+### Objetivos Clave
+- Despliegue automático en cada push a `main`
+- Ambiente de staging para validación
+- Rollback automático si fallan health checks
+- Zero-downtime deployment
+
+---
+**Última actualización:** 10 Febrero 2026  
 **Sprint 1 Completado:** ✅ 31 Enero 2026  
 **Sprint 3 Completado:** ✅ 12 Febrero 2026  
 **Sprint 4 Completado:** ✅ 9 Febrero 2026  
 **Sprint 5 Completado:** ✅ 9 Febrero 2026  
-**Sprint Actual:** 🔄 Sprint 6 - DevOps y Despliegue (En Progreso)  
-**Próxima revisión:** 16 Febrero 2026 (Fin Sprint 6)  
-**Versión del documento:** 1.4
+**Sprint 6 Completado:** ✅ 10 Febrero 2026 (Fase CI)  
+**Sprint Actual:** 📋 Sprint 7 - Despliegue Continuo (CD) en la Nube (Planificado)  
+**Próxima revisión:** 23 Febrero 2026 (Fin Sprint 7)  
+**Versión del documento:** 1.5

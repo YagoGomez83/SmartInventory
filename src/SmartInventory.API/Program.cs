@@ -189,23 +189,23 @@ for (int i = 0; i < maxRetries; i++)
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-
-    // ═══════════════════════════════════════════════════════════════════════════════
-    // HABILITAR SWAGGER UI
-    // ═══════════════════════════════════════════════════════════════════════════════
-    // Swagger estará disponible en: https://localhost:5001/swagger
-    // Aquí podrás:
-    // - Ver todos tus endpoints documentados
-    // - Probar cada endpoint directamente desde el navegador
-    // - Usar el botón "Authorize" para autenticarte con JWT
-
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartInventory API v1");
-        options.RoutePrefix = "swagger"; // Accesible en /swagger
-    });
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HABILITAR SWAGGER UI (Ahora disponible en producción para Render)
+// ═══════════════════════════════════════════════════════════════════════════════
+// Swagger estará disponible en: /swagger
+// Aquí podrás:
+// - Ver todos tus endpoints documentados
+// - Probar cada endpoint directamente desde el navegador
+// - Usar el botón "Authorize" para autenticarte con JWT
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartInventory API v1");
+    options.RoutePrefix = "swagger"; // Accesible en /swagger
+});
 
 app.UseHttpsRedirection();
 
