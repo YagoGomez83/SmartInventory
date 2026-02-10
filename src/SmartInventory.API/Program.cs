@@ -130,7 +130,7 @@ if (connectionString.StartsWith("postgresql://") || connectionString.StartsWith(
         var password = userInfo.Length > 1 ? userInfo[1] : "";
         var port = uri.Port > 0 ? uri.Port : 5432; // Puerto por defecto de PostgreSQL
         var database = uri.AbsolutePath.TrimStart('/');
-        
+
         connectionString = $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
         Console.WriteLine("✓ Connection String convertida de formato URL a formato Npgsql");
         Console.WriteLine($"  Host: {uri.Host}, Port: {port}, Database: {database}, User: {username}");
@@ -260,7 +260,14 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = "swagger"; // Accesible en /swagger
 });
 
-app.UseHttpsRedirection();
+// HTTPS Redirection: Deshabilitado en producción porque Render maneja SSL externamente
+// En ambientes containerizados como Render, el proxy/load balancer termina SSL
+// y hace forward de las peticiones en HTTP al contenedor.
+// Solo habilitamos en desarrollo local donde no hay proxy.
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MIDDLEWARES DE AUTENTICACIÓN Y AUTORIZACIÓN
