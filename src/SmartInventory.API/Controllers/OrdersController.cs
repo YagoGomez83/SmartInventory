@@ -143,7 +143,7 @@ namespace SmartInventory.API.Controllers
         /// 
         /// PAGINACIÓN:
         /// Use los parámetros pageNumber y pageSize para controlar la cantidad de resultados.
-        /// Ejemplo: GET /api/orders?pageNumber=1&pageSize=20
+        /// Ejemplo: GET /api/orders?pageNumber=1&amp;pageSize=20
         /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetMyOrders(

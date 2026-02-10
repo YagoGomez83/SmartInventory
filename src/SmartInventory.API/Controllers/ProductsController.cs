@@ -76,7 +76,7 @@ namespace SmartInventory.API.Controllers
         /// 
         /// PARÁMETROS OPCIONALES:
         /// - Si no se envían, usa valores predeterminados.
-        /// - Validación básica: pageNumber >= 1, pageSize <= 100.
+        /// - Validación básica: pageNumber &gt;= 1, pageSize &lt;= 100.
         /// 
         /// MEJORA FUTURA:
         /// Agregar filtros opcionales:

@@ -20,7 +20,7 @@ namespace SmartInventory.API.Controllers
     /// 
     /// INYECCIÓN DE DEPENDENCIAS:
     /// - ASP.NET Core resuelve automáticamente IAuthService del contenedor IoC.
-    /// - Registrado en Program.cs: builder.Services.AddScoped<IAuthService, AuthService>();
+    /// - Registrado en Program.cs: builder.Services.AddScoped&lt;IAuthService, AuthService&gt;();
     /// 
     /// ROUTING:
     /// - [Route("api/[controller]")] → api/auth
