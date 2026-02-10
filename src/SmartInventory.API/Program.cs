@@ -113,7 +113,30 @@ if (string.IsNullOrEmpty(connectionString))
         string.Join("\n", Environment.GetEnvironmentVariables().Keys.Cast<string>().OrderBy(k => k).Take(20)));
 }
 
-Console.WriteLine($"✓ Connection String seleccionada (primeros 30 chars): {connectionString.Substring(0, Math.Min(30, connectionString.Length))}...");
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONVERTIR FORMATO URL DE RENDER A FORMATO NPGSQL
+// ═══════════════════════════════════════════════════════════════════════════════
+// Render proporciona la connection string en formato URL: postgresql://user:pass@host/db
+// Npgsql necesita el formato: Host=xxx;Port=xxx;Database=xxx;Username=xxx;Password=xxx
+// Esta conversión permite usar ambos formatos automáticamente.
+
+if (connectionString.StartsWith("postgresql://") || connectionString.StartsWith("postgres://"))
+{
+    try
+    {
+        var uri = new Uri(connectionString);
+        var password = uri.UserInfo.Split(':')[1];
+        var username = uri.UserInfo.Split(':')[0];
+        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+        Console.WriteLine("✓ Connection String convertida de formato URL a formato Npgsql");
+    }
+    catch (Exception ex)
+    {
+        throw new InvalidOperationException($"Error al parsear la URL de PostgreSQL: {ex.Message}");
+    }
+}
+
+Console.WriteLine($"✓ Connection String final (primeros 30 chars): {connectionString.Substring(0, Math.Min(30, connectionString.Length))}...");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
