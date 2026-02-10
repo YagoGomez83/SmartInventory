@@ -90,9 +90,17 @@ builder.Services.AddSwaggerGen(options =>
 
 
 // Configurar DbContext con PostgreSQL
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Log para diagnóstico (NO mostrar contraseñas en producción)
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("⚠️ ERROR: ConnectionStrings:DefaultConnection no está configurada. Verifica las variables de entorno en Render.");
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
+        connectionString,
         b => b.MigrationsAssembly("SmartInventory.Infrastructure")));
 
 // Registro de Repositorios (Infrastructure Layer)
